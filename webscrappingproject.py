@@ -14,7 +14,7 @@ for cell in sheet["F"]:
     if cell.value != "Link":
       print(cell.value)
       soup = BeautifulSoup(urllib.request.urlopen(cell.value), 'lxml')
-      tableau1 = soup('table', {"class" : "BordCollapseYear2"})[0]
+      tableau1 = soup('table', {"class" : "BordCollapseYear2"})[0] # premier tableau contenant capitalisation et PER
       tableau2 = soup('table', {"class" : "BordCollapseYear2"})[1]
 
       capitalisationtemp = Convert(tableau1.findAll('tr')[5].get_text(" "))
