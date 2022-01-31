@@ -2,13 +2,8 @@ import urllib.request
 import openpyxl
 from bs4 import BeautifulSoup
 
-
-
-
 wb = openpyxl.load_workbook(r'test.xlsx')
 sheet = wb.active
-
-
 
 def Convert(string):
     li = list(string.split(" "))
