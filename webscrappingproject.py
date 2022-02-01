@@ -39,49 +39,57 @@ for cell in sheet["C"]:
   print(row)
   if type(cell.value) is str:
     if cell.value != "Link":
-      print(cell.value)
-      soup = BeautifulSoup(urllib.request.urlopen(cell.value), 'lxml')
-      tableau1 = soup('table', {"class" : "BordCollapseYear2"})[0] # premier tableau contenant capitalisation et PER
-      tableau2 = soup('table', {"class" : "BordCollapseYear2"})[1]
+      try:
+        print(cell.value)
+        soup = BeautifulSoup(urllib.request.urlopen(cell.value), 'lxml')
+        tableau1 = soup('table', {"class" : "BordCollapseYear2"})[0] # premier tableau contenant capitalisation et PER
+        tableau2 = soup('table', {"class" : "BordCollapseYear2"})[1]
 
-      capitalisationtemp = Convert(tableau1.findAll('tr')[5].get_text(" "))
-      capitalisation = capitalisationtemp[5:13]
-      print(capitalisation)
-      for i in range(8):
-        print(capitalisation[i])
-        if capitalisation[i] != '\n':
-          sheet[chr(ord("M")+i)][row-1].value = capitalisation[i]
+        capitalisationtemp = Convert(tableau1.findAll('tr')[5].get_text(" "))
+        capitalisation = capitalisationtemp[5:13]
+        print(capitalisationtemp)
+        for i in range(8):
+          if capitalisation[i] != '\n':
+            sheet[chr(ord("M")+i)][row-1].value = capitalisation[i]
 
 
-      pertemp = Convert(tableau1.findAll('tr')[3].get_text(" "))
-      per = pertemp[3:10]
-      print(per)
-      for i in range(7):
-        if per[i] != '\n':
-          sheet[chr(ord("E")+i)][row-1].value = per[i]
+        pertemp = Convert(tableau1.findAll('tr')[3].get_text(" "))
+        per = pertemp[3:11]
+        print(per)
+        for i in range(8):
+          if per[i] != '\n':
+            sheet[chr(ord("E")+i)][row-1].value = per[i]
 
-      bnatemp = Convert(tableau2.findAll('tr')[8].get_text(" "))
-      bna = bnatemp[4:11]
-      print(bna)
-      for i in range(7):
-        if bna[i] != '\n':
-          print(i)
-          sheet[col('U', i)][row-1].value = bna[i]
+
+        bnatemp = Convert(tableau2.findAll('tr')[8].get_text(" "))
+        bna = bnatemp[4:12]
+        print(bna)
+        for i in range(8):
+          if bna[i] != '\n':
+            sheet[col('U', i)][row-1].value = bna[i]
+          
+      except IndexError:
+        print("Erreur dans le nombre de données récupérées, vérifiez que la page est valide")
+        pass
+
 
 
 
 for cell in sheet["D"]:
-  row2 = row2+1
-  print(row2)
-  if type(cell.value) is str:
-    if cell.value != "Link Beta":
-      print(cell.value)
-      soup = BeautifulSoup(urllib.request.urlopen(cell.value), 'lxml')
-      issoutest = soup('span', {"class" : "mod-ui-data-list__value"})[4].text
-      issouconvert = Convert(issoutest)
-      print(issouconvert[0])
-      sheet["AC"][row2-1].value = issouconvert[0]
-
+  try:
+    row2 = row2+1
+    print(row2)
+    if type(cell.value) is str:
+      if cell.value != "Link Beta":
+        print(cell.value)
+        soup = BeautifulSoup(urllib.request.urlopen(cell.value), 'lxml')
+        issoutest = soup('span', {"class" : "mod-ui-data-list__value"})[4].text
+        issouconvert = Convert(issoutest)
+        print(issouconvert[0])
+        sheet["AC"][row2-1].value = issouconvert[0]
+  except IndexError:
+    print("Erreur dans le nombre de données récupérées, vérifiez que la page est valide")
+    pass
 
 
 
