@@ -7,6 +7,8 @@ import xlsxwriter
 import time
 from tkinter import *
 
+# Partie logique
+
 def scraping(filepath):
   timestr = time.strftime("%d-%m-%Y_%H-%M-%S")
 
@@ -75,7 +77,7 @@ def scraping(filepath):
               sheet[col('U', i)][row-1].value = bna[i]
             
         except IndexError:
-          textbox.insert(1.0,"Erreur dans le nombre de données récupérées à la ligne "+str(row)+" vérifiez que la page est valide \n")
+          textbox.insert(END,"Erreur dans le nombre de données récupérées à la ligne "+str(row)+" vérifiez que la page est valide \n")
           pass
 
 
@@ -94,38 +96,38 @@ def scraping(filepath):
           print(issouconvert[0])
           sheet["AC"][row2-1].value = issouconvert[0]
     except IndexError:
-      textbox.insert(1.0,"Erreur dans le nombre de données récupérées, vérifiez que la page à la ligne " +str(row)+ " est valide \n")
+      textbox.insert(END,"Erreur dans le nombre de données récupérées pour le Beta, vérifiez que la page à la ligne " +str(row)+ " est valide \n")
       pass
 
-
+  textbox.insert(END,"Fin du script, fichier sauvegardé")
   wb.save(namefile)
-  textbox.insert(1.0,"Fin du script, fichier sauvegardé")
+
 
 #Partie GUI
 
 def openFile():
   global filepath
   filepath= filedialog.askopenfilename()
-  textbox.insert(1.0, "Fichier récuperé : " + str(filepath) + "\n")
-  textbox.insert(1.0,"Cliquez sur le bouton pour lancer le scraping \n" )
+  #textbox.insert(1.0, "Fichier récuperé : " + str(filepath) + "\n")
+  textbox.insert(END,"Fichier récuperé, cliquez sur le bouton pour lancer le scraping (peut prendre plusieurs minutes à s'éxecuter) \n" )
 
 
 
 root = Tk()
-root.minsize(900, 700)
-root.title("Financial Web Scraping Project")
+root.minsize(600, 700)
+root.title("Financial Web Scraping Project Beta")
 frame = Frame(root, bg="#121212")
 
 
-Label(frame, text="FINANCIAL WEB SCRAPING", bg="#121212", font=("Arial Bold", 18,), fg= "#e3e3e3" ).grid(row=0, column=0, ipadx=20, ipady=20)
+Label(frame, text="WEB SCRAPING PROJECT", bg="#121212", font=("Arial Bold", 18,), fg= "#e3e3e3" ).grid(row=0, column=0, ipadx=20, ipady=20)
 button = Button(frame, text="Ouvrir votre fichier Excel", command=openFile, bg='#bb86fc', fg="#e3e3e3", bd=0)
-button.grid(row=1, column=0)
+button.grid(row=2, column=0, pady=(20,0))
 
 button2 = Button(frame, text="Executer le script", command=lambda:scraping(filepath), bg='#bb86fc', fg="#e3e3e3",bd=0)
-button2.grid(row=2, column=0,pady=(20,0))
+button2.grid(row=3, column=0,pady=(20,0))
 
 textbox= Text(frame, height=30, width=60, bg="#1e1e1e", fg='#e3e3e3')
-textbox.grid(row=1, column=1)
+textbox.grid(row=1, column=0)
 
 
 
