@@ -116,6 +116,7 @@ def openFile():
 root = Tk()
 root.minsize(600, 700)
 root.title("Financial Web Scraping Project Beta")
+root.iconbitmap('scraper.ico')
 frame = Frame(root, bg="#121212")
 
 
